@@ -1,14 +1,18 @@
 #!/bin/bash
 
+##################################################
 server_url=https://ftp.maps.canada.ca/pub/statcan_statcan/avhrr
 
+##################################################
 wget --no-check-certificate ${server_url}/Bands_Weeks_AVHRR_Semaines_Bandes.xlsx
 
+##################################################
 echo
 echo downloading starts: `date`
 echo
 
-for YEAR in {1987..2022}
+# for YEAR in {1987..2022}
+for YEAR in {1999..2001}
 do
     tempfile=${server_url}/AVHRR1KM_${YEAR}.zip
     echo
@@ -21,11 +25,13 @@ echo
 echo downloading complete: `date`
 echo
 
+##################################################
 echo
 echo unzipping starts: `date`
 echo
 
-for YEAR in {1987..2022}
+# for YEAR in {1987..2022}
+for YEAR in {1999..2001}
 do
     tempfile=AVHRR1KM_${YEAR}.zip
     echo
@@ -37,3 +43,9 @@ echo
 echo
 echo unzipping complete: `date`
 echo
+
+##################################################
+tempdir=AVHRR1KM_2000
+if [ -d "$tempdir" ]; then
+    mv ${tempdir}/* .
+fi
