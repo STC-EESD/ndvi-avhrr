@@ -18,6 +18,7 @@ do
 done
 
 echo
+echo
 echo downloading complete: `date`
 echo
 
