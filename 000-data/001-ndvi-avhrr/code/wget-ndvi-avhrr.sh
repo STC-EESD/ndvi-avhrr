@@ -8,8 +8,7 @@ echo
 echo downloading starts: `date`
 echo
 
-# for YEAR in {1987..2022}
-for YEAR in {1987..1991}
+for YEAR in {1987..2022}
 do
     tempfile=${server_url}/AVHRR1KM_${YEAR}.zip
     echo
@@ -26,8 +25,7 @@ echo
 echo unzipping starts: `date`
 echo
 
-# for YEAR in {1987..2022}
-for YEAR in {1987..1991}
+for YEAR in {1987..2022}
 do
     tempfile=AVHRR1KM_${YEAR}.zip
     echo
