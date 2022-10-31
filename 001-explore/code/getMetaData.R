@@ -27,8 +27,8 @@ getMetaData <- function(
         data.directory = data.directory
         );
 
-    colnames(DF.metadata.metadata) <- gsub(
-        x           = colnames(DF.metadata.spatial),
+    colnames(DF.metadata.temporal) <- gsub(
+        x           = colnames(DF.metadata.temporal),
         pattern     = "^geotiff$",
         replacement = "geotiff.metadata"
         );
