@@ -72,6 +72,12 @@ DF.metadata <- getMetaData(
 cat("\nDF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]\n");
 print( DF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]   );
 
+write.csv(
+    file      = "DF-metadata.csv",
+    x         = DF.metadata,
+    row.names = FALSE
+    );
+
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
 
 ##################################################
