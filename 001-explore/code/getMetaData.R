@@ -40,9 +40,6 @@ getMetaData <- function(
         by = "year"
         );
 
-    cat("\nDF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]\n");
-    print( DF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]   );
-
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     cat(paste0("\n# ",thisFunctionName,"() exits."));
     cat("\n### ~~~~~~~~~~~~~~~~~~~~ ###\n");

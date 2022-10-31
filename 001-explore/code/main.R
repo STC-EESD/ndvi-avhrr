@@ -65,11 +65,12 @@ print( data.directory );
 print( dir.exists(data.directory) );
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
-LIST.metadata <- getMetaData(
+DF.metadata <- getMetaData(
     data.directory = data.directory
     );
 
-### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
+cat("\nDF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]\n");
+print( DF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]   );
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
 
