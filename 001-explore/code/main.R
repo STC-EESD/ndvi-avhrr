@@ -57,7 +57,7 @@ data.directory <- gsub(
 data.directory <- gsub(
     x           = data.directory,
     pattern     = "output",
-    replacement = "output.2022-10-15.01"
+    replacement = ifelse(test = is.macOS, yes = "output.2022-10-15.01", no = "output.2022-10-20.01")
     );
 
 print( data.directory );
