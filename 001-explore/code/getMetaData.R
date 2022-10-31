@@ -57,6 +57,7 @@ getMetaData_temporal <- function(
             path  = PATH.band.week,
             sheet = temp.sheet
             ));
+        temp.geotiff <- paste0(colnames(DF.temp)[2],".tif");
         band.row.index <- grep(
             x           = DF.temp[,1],
             pattern     = "bands",
@@ -67,7 +68,7 @@ getMetaData_temporal <- function(
 
         DF.temp[,'julian.week'] <- as.integer(DF.temp[,'julian.week']);
         DF.temp[,'year']        <- as.integer(temp.sheet);
-        DF.temp[,'geotiff']     <- FILE.band.week;
+        DF.temp[,'geotiff']     <- temp.geotiff;
 
         gregorian.week1         <- as.Date(paste0(temp.sheet,"-01-01")) + seq(0,6);
         gregorian.weekdays      <- base::weekdays(gregorian.week1);
