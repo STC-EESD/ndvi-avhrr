@@ -81,7 +81,7 @@ print( DF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]   );
 
 DF.metadata <- DF.metadata %>%
     dplyr::group_by( year ) %>%
-    dplyr::filter(band == max(band));
+    dplyr::slice(base::which.max(band));
 DF.metadata <- as.data.frame(DF.metadata);
 
 cat("\nDF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]\n");
