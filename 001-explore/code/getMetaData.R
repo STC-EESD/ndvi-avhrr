@@ -34,19 +34,19 @@ getMetaData <- function(
     print( unique(DF.metadata.temporal[,'geotiff'])   );
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
-    DF.joined <- dplyr::left_join(
+    DF.metadata <- dplyr::left_join(
         x  = DF.metadata.temporal,
         y  = DF.metadata.spatial,
         by = "year"
         );
 
-    cat("\nDF.joined[!is.na(DF.joined[,'geotiff.downloaded']),]\n");
-    print( DF.joined[!is.na(DF.joined[,'geotiff.downloaded']),]   );
+    cat("\nDF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]\n");
+    print( DF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]   );
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     cat(paste0("\n# ",thisFunctionName,"() exits."));
     cat("\n### ~~~~~~~~~~~~~~~~~~~~ ###\n");
-    return( NULL );
+    return( DF.metadata );
 
     }
 
