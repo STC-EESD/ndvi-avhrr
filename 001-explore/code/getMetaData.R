@@ -27,11 +27,17 @@ getMetaData <- function(
         data.directory = data.directory
         );
 
+    colnames(DF.metadata.metadata) <- gsub(
+        x           = colnames(DF.metadata.spatial),
+        pattern     = "^geotiff$",
+        replacement = "geotiff.metadata"
+        );
+
     cat("\nDF.metadata.temporal\n");
     print( DF.metadata.temporal   );
 
-    cat("\nunique(DF.metadata.temporal[,'geotiff'])\n");
-    print( unique(DF.metadata.temporal[,'geotiff'])   );
+    cat("\nunique(DF.metadata.temporal[,'geotiff.metadata'])\n");
+    print( unique(DF.metadata.temporal[,'geotiff.metadata'])   );
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     DF.metadata <- dplyr::left_join(
