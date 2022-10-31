@@ -69,11 +69,27 @@ DF.metadata <- getMetaData(
     data.directory = data.directory
     );
 
+write.csv(
+    file      = "DF-metadata.csv",
+    x         = DF.metadata,
+    row.names = FALSE
+    );
+
+### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
+cat("\nDF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]\n");
+print( DF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]   );
+
+DF.metadata <- DF.metadata %>%
+    dplyr::group_by( year ) %>%
+    dplyr::mutate( max.band = max(band) );
+DF.metadata <- as.data.frame(DF.metadata);
+DF.metadata <- DF.metadata[DF.metadata[,'band'] == DF.metadata[,'max.band'],];
+
 cat("\nDF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]\n");
 print( DF.metadata[!is.na(DF.metadata[,'geotiff.downloaded']),]   );
 
 write.csv(
-    file      = "DF-metadata.csv",
+    file      = "DF-metadata-max-band.csv",
     x         = DF.metadata,
     row.names = FALSE
     );
