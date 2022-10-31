@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ##################################################
+# https://open.canada.ca/data/en/dataset/44ced2fa-afcc-47bd-b46e-8596a25e446e
 server_url=https://ftp.maps.canada.ca/pub/statcan_statcan/avhrr
 
 ##################################################
