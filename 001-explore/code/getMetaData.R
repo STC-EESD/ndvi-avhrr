@@ -8,6 +8,9 @@ getMetaData <- function(
     cat("\n### ~~~~~~~~~~~~~~~~~~~~ ###");
     cat(paste0("\n# ",thisFunctionName,"() starts.\n"));
 
+    require(raster);
+    require(readxl);
+
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     DF.metadata.spatial <- getMetaData_spatial(
         data.directory = data.directory
@@ -61,14 +64,23 @@ getMetaData <- function(
     }
 
 ##################################################
+getMetaData_julian.day1 <- function(
+    year = NULL
+    ){
+    gregorian.week1    <- base::as.Date(base::paste0(year,"-01-01")) + base::seq(0,6);
+    gregorian.weekdays <- base::weekdays(gregorian.week1);
+    julian.day1        <- gregorian.week1[gregorian.weekdays == "Monday"];
+    return( julian.day1 );
+    }
+
 getMetaData_temporal <- function(
     data.directory = NULL
     ) {
 
     require(readxl);
 
-    cat("\nlist.files(data.directory, pattern = '\\.xlsx$')\n");
-    print( list.files(data.directory, pattern = '\\.xlsx$')   );
+    # cat("\nlist.files(data.directory, pattern = '\\.xlsx$')\n");
+    # print( list.files(data.directory, pattern = '\\.xlsx$')   );
 
     FILE.band.week <- list.files(path = data.directory, pattern = '\\.xlsx$');
     PATH.band.week <- file.path(data.directory,FILE.band.week);
@@ -79,7 +91,28 @@ getMetaData_temporal <- function(
     cat("\nsheet.names\n");
     print( sheet.names   );
 
-    DF.output <- data.frame();
+    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
+    # DF.output <- data.frame();
+
+    temp.years <- as.integer(seq(1987,1999));
+    temp.julian.day1s <- do.call(
+        what = base::c,
+        args = sapply(
+            X        = temp.years,
+            FUN      = getMetaData_julian.day1,
+            simplify = FALSE
+            )
+        );
+
+    DF.output <- data.frame(
+        year         = temp.years,
+        julian.day1  = temp.julian.day1s,
+        geotiff      = as.character(rep(NA,length(temp.years))),
+        band         = as.character(rep(-1,length(temp.years))),
+        julian.week  = as.integer(  rep(NA,length(temp.years)))
+        );
+
+    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     for ( temp.sheet in sheet.names ) {
 
         DF.temp <- base::as.data.frame(readxl::read_excel(
@@ -93,16 +126,12 @@ getMetaData_temporal <- function(
             ignore.case = TRUE
             );
         DF.temp <- DF.temp[seq(band.row.index+1,nrow(DF.temp)),c(1,2)];
-        colnames(DF.temp)   <- c('band','julian.week');
+        colnames(DF.temp) <- c('band','julian.week');
 
         DF.temp[,'julian.week'] <- as.integer(DF.temp[,'julian.week']);
         DF.temp[,'year']        <- as.integer(temp.sheet);
         DF.temp[,'geotiff']     <- temp.geotiff;
-
-        gregorian.week1         <- as.Date(paste0(temp.sheet,"-01-01")) + seq(0,6);
-        gregorian.weekdays      <- base::weekdays(gregorian.week1);
-        julian.day1             <- gregorian.week1[gregorian.weekdays == "Monday"];
-        DF.temp[,'julian.day1'] <- julian.day1;
+        DF.temp[,'julian.day1'] <- getMetaData_julian.day1(year = temp.sheet);
 
         DF.temp <- DF.temp[,c('year','julian.day1','geotiff','band','julian.week')];
         DF.output <- rbind(DF.output,DF.temp);
@@ -126,8 +155,10 @@ getMetaData_spatial <- function(
     data.directory = NULL
     ) {
 
-    cat("\nlist.files(data.directory, pattern = '\\.tif$')\n");
-    print( list.files(data.directory, pattern = '\\.tif$')   );
+    require(raster);
+
+    # cat("\nlist.files(data.directory, pattern = '\\.tif$')\n");
+    # print( list.files(data.directory, pattern = '\\.tif$')   );
 
     geotiffs   <- list.files(path = data.directory, pattern = '\\.tif$');
     n.geotiffs <- length(geotiffs);
