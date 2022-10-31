@@ -20,6 +20,7 @@ require(arrow);
 require(ggplot2);
 require(ncdf4);
 require(raster);
+require(readxl);
 require(sf);
 require(stringr);
 require(terrainr);
