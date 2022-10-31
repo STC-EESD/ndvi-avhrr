@@ -9,12 +9,18 @@ getMetaData <- function(
     cat(paste0("\n# ",thisFunctionName,"() starts.\n"));
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
-    # DF.metadata.spatial <- getMetaData_spatial(
-    #     data.directory = data.directory
-    #     );
-    #
-    # cat("\nDF.metadata.spatial\n");
-    # print( DF.metadata.spatial   );
+    DF.metadata.spatial <- getMetaData_spatial(
+        data.directory = data.directory
+        );
+
+    colnames(DF.metadata.spatial) <- gsub(
+        x           = colnames(DF.metadata.spatial),
+        pattern     = "^geotiff$",
+        replacement = "geotiff.downloaded"
+        );
+
+    cat("\nDF.metadata.spatial\n");
+    print( DF.metadata.spatial   );
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     DF.metadata.temporal <- getMetaData_temporal(
@@ -23,6 +29,19 @@ getMetaData <- function(
 
     cat("\nDF.metadata.temporal\n");
     print( DF.metadata.temporal   );
+
+    cat("\nunique(DF.metadata.temporal[,'geotiff'])\n");
+    print( unique(DF.metadata.temporal[,'geotiff'])   );
+
+    ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
+    DF.joined <- dplyr::left_join(
+        x  = DF.metadata.temporal,
+        y  = DF.metadata.spatial,
+        by = "year"
+        );
+
+    cat("\nDF.joined[!is.na(DF.joined[,'geotiff.downloaded']),]\n");
+    print( DF.joined[!is.na(DF.joined[,'geotiff.downloaded']),]   );
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     cat(paste0("\n# ",thisFunctionName,"() exits."));
@@ -75,7 +94,7 @@ getMetaData_temporal <- function(
         julian.day1             <- gregorian.week1[gregorian.weekdays == "Monday"];
         DF.temp[,'julian.day1'] <- julian.day1;
 
-        DF.temp <- DF.temp[,c('year','geotiff','band','julian.day1','julian.week')];
+        DF.temp <- DF.temp[,c('year','julian.day1','geotiff','band','julian.week')];
         DF.output <- rbind(DF.output,DF.temp);
 
         cat("\nsheet:",temp.sheet);
@@ -140,6 +159,6 @@ getMetaData_spatial <- function(
     cat("\nunique(DF.geotiffs[,setdiff(colnames(DF.geotiffs),c('year','geotiff','n.layers'))])\n");
     print( unique(DF.geotiffs[,setdiff(colnames(DF.geotiffs),c('year','geotiff','n.layers'))])   );
 
-    return( NULL );
+    return( DF.geotiffs );
 
     }
