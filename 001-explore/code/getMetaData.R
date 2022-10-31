@@ -41,10 +41,17 @@ getMetaData <- function(
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     DF.metadata <- dplyr::left_join(
-        x  = DF.metadata.temporal,
-        y  = DF.metadata.spatial,
+        x  = DF.metadata.spatial,
+        y  = DF.metadata.temporal,
         by = "year"
         );
+
+    reordered.colnames <- c(
+        colnames(DF.metadata.temporal),
+        setdiff(colnames(DF.metadata.spatial),'year')
+        );
+
+    DF.metadata <- DF.metadata[,reordered.colnames];
 
     ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ###
     cat(paste0("\n# ",thisFunctionName,"() exits."));
