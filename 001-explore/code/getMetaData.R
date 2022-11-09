@@ -79,11 +79,11 @@ getMetaData_temporal <- function(
 
     require(readxl);
 
-    cat("\nlist.files(data.directory, pattern = '-AC-\\.xlsx$')\n");
-    print( list.files(data.directory, pattern = '-AC-\\.xlsx$')   );
+    cat("\nlist.files(data.directory, pattern = '-AC.xlsx$')\n");
+    print( list.files(data.directory, pattern = '-AC\\.xlsx$')   );
 
   # FILE.band.week <- list.files(path = data.directory, pattern = '\\.xlsx$');
-    FILE.band.week <- list.files(path = data.directory, pattern = '-AC-\\.xlsx$');
+    FILE.band.week <- list.files(path = data.directory, pattern = '-AC\\.xlsx$');
     PATH.band.week <- file.path(data.directory,FILE.band.week);
 
     sheet.names    <- readxl::excel_sheets(path = PATH.band.week);
